@@ -9,7 +9,7 @@ const Podcasts = () => {
     <div className="container-fluid">
         <div className="row">
             {podcasts.map((podcast, index) => (
-                <PreviewPodcast 
+                <PreviewPodcast
                     key={index}
                     podcast={podcast}
                 />

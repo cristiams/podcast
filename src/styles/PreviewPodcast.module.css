@@ -1,0 +1,12 @@
+.podcastContainer {
+    position: relative;
+    /* z-index: 5; */
+    padding-top: 85px;
+}
+
+.podcastImg {
+    position: absolute;
+    /* top: -103px; */
+    bottom: 10px;
+    right: 60px;
+}
