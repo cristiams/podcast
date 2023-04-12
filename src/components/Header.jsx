@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header>
         <nav className="navbar">
-            <div className="container-fluid">
+            <div className="container">
                 <Link to="/" className="navbar-brand" href="#"><span className="text-primary">Podcaster</span></Link>
             </div>
         </nav>
