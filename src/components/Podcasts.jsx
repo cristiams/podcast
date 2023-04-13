@@ -7,10 +7,10 @@ const Podcasts = () => {
 
     return (
     <div className="container">
-        <div className="row mb-5">
-            <div className="col-12">
-                <h4><span className="badge text-bg-primary">{podcasts.length}</span></h4>
-                <input type="text" className="form-control" placeholder="Filter podcasts..."/>
+        <div className="d-flex justify-content-end align-items-baseline mb-5">
+            <span className="badge fs-4 text-bg-primary">{podcasts.length}</span>
+            <div className="flex-shrink-1">
+                <input type="text" className="form-control ms-1" placeholder="Filter podcasts..."/>
             </div>
         </div>
         <div className="row">
