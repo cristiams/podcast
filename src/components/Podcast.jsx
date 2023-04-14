@@ -8,7 +8,7 @@ const Podcast = () => {
         <div className="col-4">
           <Podcastster/>
         </div>
-        <div className="ms-5 col-6">
+        <div className="ms-4 col-7">
           <Episodes/>
         </div>
       </div>
