@@ -2,7 +2,7 @@ import styles from '../styles/PreviewPodcast.module.css'
 import { Link } from 'react-router-dom'
 
 const PreviewPodcast = ({podcast}) => {
-  console.log(podcast)
+  // console.log(podcast)
   // console.log(podcast['im:image'][1].label)
 
   const {title: {label}} = podcast

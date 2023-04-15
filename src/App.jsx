@@ -11,12 +11,10 @@ function App() {
     <BrowserRouter>
       <PodcastsProvider>
         <Routes>
-            <Route path='/' element={<Layout />}>
-              <Route index element={<Podcasts />} />
+            <Route path='/'element={<Layout />} >
+              <Route index element={<Podcasts />}/>
               <Route path="podcast/:id" element={<Podcast />} />
-              {/* <Route path="podcast/:id" element={<Podcast />}>
-                <Route path='episode/:id' element={<Episode />} />
-              </Route> */}
+              <Route path='podcast/:id/episode/:id' element={<Episode />} />
             </Route>
         </Routes>
       </PodcastsProvider>
