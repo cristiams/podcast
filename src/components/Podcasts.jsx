@@ -1,10 +1,10 @@
-import { useState } from "React";
+import { useState } from "react";
 import usePodcasts from "../hooks/usePodcasts"
 import PreviewPodcast from "./PreviewPodcast"
 
 const Podcasts = () => {
 
-    const {podcasts, filterPodcasts, filteredPodcasts, filter, setFilter} = usePodcasts()
+    const {podcasts, filterPodcasts, filteredPodcasts} = usePodcasts()
     const [input, setInput] = useState('')
 
     const handleFilter = (query) => {

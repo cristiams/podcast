@@ -5,21 +5,20 @@ const PreviewPodcast = ({podcast}) => {
   // console.log(podcast)
   // console.log(podcast['im:image'][1].label)
 
-  const {title: {label}} = podcast
   return (
     <div className={`col-3 mt-5 ${styles.podcastContainer}`}>
         <div className="card text-center">
             <div className="card-body">
               <div className={styles.podcastContainerImg}>
-                <Link to={`/podcast/${podcast.id.attributes['im:id']}`} className=''>
-                  <img src={podcast['im:image'][2].label}
+                <Link to={`/podcast/${podcast.id}`} className=''>
+                  <img src={podcast.img}
                     className={`${styles.podcastImg} rounded-circle`}
-                    alt={podcast['im:artist'].label}
+                    alt={podcast.name}
                   />
                 </Link>
               </div>
-                <h6 className="card-text text-uppercase"><Link to={`/podcast/${podcast.id.attributes['im:id']}`} className='text-decoration-none text-dark'>{podcast['im:name'].label}</Link></h6>
-                <p className="text-secondary">Author: <span className='text-uppercase'>{podcast['im:artist'].label}</span></p>
+                <h6 className="card-text text-uppercase"><Link to={`/podcast/${podcast.id}`} className='text-decoration-none text-dark'>{podcast.name}</Link></h6>
+                <p className="text-secondary">Author: <span className='text-uppercase'>{podcast.author}</span></p>
             </div>
         </div>
     </div>
