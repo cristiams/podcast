@@ -7,29 +7,26 @@ import Podcastster from "./Podcaster"
 const Podcast = () => {
 
   const params = useParams();
-  const {obtenerPodcast, obtenerEpisodios, podcast} = usePodcasts()
+  const {obtenerPodcast, podcast} = usePodcasts()
 
   useEffect( () => {
     obtenerPodcast(params.id)
   }, [])
 
-  useEffect( () => {
-    if (podcast.hasOwnProperty('feedUrl') && !podcast.hasOwnProperty('episodes')) {
-      obtenerEpisodios(podcast.feedUrl)   
-    }
-  }, [podcast])
-
   return (
-    <div className="container bg-light">
-      <div className="row py-3">
-        <div className="col-4">
-          <Podcastster/>
-        </div>
-        <div className="ms-4 col-7">
-          <Episodes/>
-        </div>
-      </div>
-    </div>
+    // <div className="container bg-light">
+    //   <div className="row py-3">
+    //     <div className="col-4">
+    //       {podcast && <Podcastster/>}
+    //     </div>
+    //     <div className="ms-4 col-7">
+    //       {podcast && 'episodes' in podcast && <Episodes/>}
+    //     </div>
+    //   </div>
+    // </div>
+    <>
+      {podcast && 'episodes' in podcast && <Episodes/>}
+    </>
   )
 }
 

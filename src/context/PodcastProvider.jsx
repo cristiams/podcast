@@ -65,86 +65,89 @@ const PodcastsProvider = ({children}) => {
     }
     
 
-    const obtenerPodcast = async id => {
+    const obtenerPodcast = id => {
 
         const localEntry = localStorage.getItem(`podcast_${id}`)
         if (localEntry === null || isOutdated(JSON.parse(localEntry).timestamp)) {
             let url = `https://itunes.apple.com/lookup?id=${id}`
-            const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
-            if (!response.ok) {
-                console.log('No se pudo obtener informacion del podcast')
-                return
-            }
-            const data = await response.json()
-            console.log(data)
-            // console.log(data.contents)
-            console.log(JSON.parse(data.contents))
-            let contents = JSON.parse(data.contents)
-            // console.log(contents.results)
-            // console.log(contents.results[0])
-            const p = contents.results[0]
-            // localStorage.setItem('singlePodcast', JSON.stringify(contents.results[0]))
-            let description = ''
-            podcasts.forEach(pod => {
-                if (pod.id == id) {
-                    description = pod.summary
-                }
-            })
+            fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+                .then(response => {
+                    if (response.ok) return response.json()
+                    console.log('No se pudo obtener informacion del podcast')
+                    return
+                })
+                .then(data => {
+                    console.log(data)
+                    // console.log(data.contents)
+                    console.log(JSON.parse(data.contents))
+                    let contents = JSON.parse(data.contents)
+                    // console.log(contents.results)
+                    // console.log(contents.results[0])
+                    const p = contents.results[0]
+                    // localStorage.setItem('singlePodcast', JSON.stringify(contents.results[0]))
+                    let description = ''
+                    podcasts.forEach(pod => {
+                        if (pod.id == id) {
+                            description = pod.summary
+                        }
+                    })
 
-            let podcast = {
-                id: p.trackId,
-                artwork: p.artworkUrl600,
-                name: p.trackName,
-                feedUrl: p.feedUrl,
-                artistName: p.artistName,
-                description
-            };
-            setPodcast(podcast)
-            let lsObject = { value: podcast, timestamp: new Date().getTime() }
-            localStorage.setItem(`podcast_${id}`, JSON.stringify(lsObject));
+                    let podcast = {
+                        id: p.trackId,
+                        artwork: p.artworkUrl600,
+                        name: p.trackName,
+                        feedUrl: p.feedUrl,
+                        artistName: p.artistName,
+                        description
+                    };
+                    setPodcast(podcast)
+
+                    fetch(p.feedUrl)
+                        .then(response => {
+                            if (response.ok) return response.text()
+                            console.log('No se pudo obtener episodios del podcast')
+                        })
+                        .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+                        .then(data => {
+                            console.log(data);
+                            let episodes = []
+                            const items = data.querySelectorAll("item");
+                            items.forEach(episode => {
+                                // console.log(episode)
+                                // console.log(episode.querySelector('guid').textContent)
+                                // console.log(episode.querySelector('title').textContent)
+                                // console.log(episode.querySelector('pubDate').textContent)
+                                // console.log(episode.getElementsByTagName('itunes:duration')[0].textContent)
+                                // console.log(episode.getElementsByTagName('content:encoded')[0].textContent)
+                                // console.log(episode.getElementsByTagName('enclosure').getAttribute('url'))
+                                
+                                // ALGUNOS NO EXISTEN, VALIDARLOS
+
+                                episodes = [...episodes,
+                                    {
+                                        id: episode.querySelector('guid').textContent,
+                                        title:episode.querySelector('title').textContent,
+                                        date: episode.querySelector('pubDate').textContent,
+                                        duration: episode.getElementsByTagName('itunes:duration').length ? episode.getElementsByTagName('itunes:duration')[0].textContent : 'none',
+                                        content: episode.getElementsByTagName('content:encoded')[0].textContent,
+                                        url: episode.getElementsByTagName('enclosure').length ? episode.querySelector('enclosure').getAttribute('url') : null
+                                    }
+                                ]
+                            })
+                            console.log(episodes)
+                            let udpPodcast = {...podcast, episodes}
+                            console.log(udpPodcast)
+                            setPodcast(udpPodcast)
+                            // console.log(podcast)
+                            let lsObject = { value: udpPodcast, timestamp: new Date().getTime() }
+                            localStorage.setItem(`podcast_${id}`, JSON.stringify(lsObject))
+                        })
+                })
+
         }
         else {
             setPodcast(JSON.parse(localEntry).value)
         }
-
-        // obtenerEpisodios(podcast.feedUrl)
-    }
-
-    const obtenerEpisodios = url => {
-        let episodes = [];
-        console.log(url)
-        fetch(url)
-            .then(response => response.text())
-            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => {
-            console.log(data);
-            const items = data.querySelectorAll("item");
-                items.forEach(episode => {
-                    // console.log(episode)
-                    // console.log(episode.querySelector('guid').textContent)
-                    // console.log(episode.querySelector('title').textContent)
-                    // console.log(episode.querySelector('pubDate').textContent)
-                    // console.log(episode.getElementsByTagName('itunes:duration')[0].textContent)
-                    // console.log(episode.getElementsByTagName('content:encoded')[0].textContent)
-                    // console.log(episode.querySelector('enclosure').getAttribute('url'))
-                    // ALGUNOS NO EXISTEN, VALIDARLOS
-
-
-
-                    // episodes = [... episodes,
-                    //     {
-                    //         id: episode.guid,
-                    //         title: episode.title,
-                    //         date: episode.pubDate,
-                    //         duration: episode['itunes:duration'],
-                    //         content: episode.content,
-                    //         url: episode.enclosure
-                    //     }
-                    // ]
-                })
-            })
-
-        console.log(episodes)
     }
 
     return (
@@ -156,14 +159,13 @@ const PodcastsProvider = ({children}) => {
                 cargando,
                 filterPodcasts,
                 obtenerPodcast,
-                obtenerEpisodios,
             }}
         >{children}
         </PodcastsContext.Provider>
     )
 }
-export { 
+export {
     PodcastsProvider
 }
-    
+
 export default PodcastsContext

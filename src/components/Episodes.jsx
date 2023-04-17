@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
+import usePodcasts from '../hooks/usePodcasts';
 import styles from '../styles/Episodes.module.css'
 
 const Episodes = () => {
+  const {podcast} = usePodcasts()
 
   return (
     <>
       <div className="p-3 bg-white mb-3 border border-light border-1">
-        <h5>Episodes: 66</h5>
+        <h5>Episodes: {podcast.episodes.length}</h5>
       </div>
       <div className="p-4 bg-white border border-light border-1">
         <table className="table table-striped">
@@ -18,13 +20,17 @@ const Episodes = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className={styles.tableThTd}>
-                <Link to="/episode/1" className="text-decoration-none">Clippling work-work</Link>
-              </td>
-              <td className="date">1/3/2016</td>
-              <td className="text-end pe-3">14:00</td>
-            </tr>
+            {podcast && 'episodes' in podcast &&
+              podcast.episodes.map((e, index) => (
+                <tr key={e.id}>
+                  <td className={styles.tableThTd}>
+                    <Link to={`episode/${e.id}`} className="text-decoration-none">{e.title}</Link>
+                  </td>
+                  <td className="date">{e.date}</td>
+                  <td className="text-end pe-3">{e.duration}</td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>
