@@ -4,7 +4,6 @@ import usePodcasts from '../hooks/usePodcasts';
 const Podcastster = () => {
 
   const {podcast} = usePodcasts()
-
   const {artistName, name, artwork, description, id} = podcast
 
   return (

@@ -26,8 +26,8 @@ const Episodes = () => {
                   <td className={styles.tableThTd}>
                     <Link to={`episode/${e.id}`} className="text-decoration-none">{e.title}</Link>
                   </td>
-                  <td className="date">{e.date}</td>
-                  <td className="text-end pe-3">{e.duration}</td>
+                  <td className="date">{new Date(Date.parse(e.date)).toLocaleDateString('es-ES')}</td>
+                  <td className="text-end pe-3">{e.duration ? e.duration : ''}</td>
                 </tr>
               ))
             }

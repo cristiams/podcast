@@ -128,8 +128,8 @@ const PodcastsProvider = ({children}) => {
                                         id: episode.querySelector('guid').textContent,
                                         title:episode.querySelector('title').textContent,
                                         date: episode.querySelector('pubDate').textContent,
-                                        duration: episode.getElementsByTagName('itunes:duration').length ? episode.getElementsByTagName('itunes:duration')[0].textContent : 'none',
-                                        content: episode.getElementsByTagName('content:encoded')[0].textContent,
+                                        duration: episode.getElementsByTagName('itunes:duration').length ? episode.getElementsByTagName('itunes:duration')[0].textContent : null,
+                                        description: episode.getElementsByTagName('description').length ? episode.getElementsByTagName('description')[0].textContent : null,
                                         url: episode.getElementsByTagName('enclosure').length ? episode.querySelector('enclosure').getAttribute('url') : null
                                     }
                                 ]
@@ -143,7 +143,6 @@ const PodcastsProvider = ({children}) => {
                             localStorage.setItem(`podcast_${id}`, JSON.stringify(lsObject))
                         })
                 })
-
         }
         else {
             setPodcast(JSON.parse(localEntry).value)
@@ -157,6 +156,7 @@ const PodcastsProvider = ({children}) => {
                 podcast,
                 filteredPodcasts,
                 cargando,
+                setCargando,
                 filterPodcasts,
                 obtenerPodcast,
             }}
