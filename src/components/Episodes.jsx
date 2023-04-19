@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom"
 import usePodcasts from '../hooks/usePodcasts';
 import styles from '../styles/Episodes.module.css'
+import { durationFormatter } from '../utils/checkOutTime'
 
 const Episodes = () => {
   const {podcast} = usePodcasts()
@@ -27,7 +28,7 @@ const Episodes = () => {
                     <Link to={`episode/${e.id}`} className="text-decoration-none">{e.title}</Link>
                   </td>
                   <td className="date">{new Date(Date.parse(e.date)).toLocaleDateString('es-ES')}</td>
-                  <td className="text-end pe-3">{e.duration ? e.duration : ''}</td>
+                  <td className="text-end pe-3">{durationFormatter(e.duration)}</td>
                 </tr>
               ))
             }

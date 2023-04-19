@@ -43,7 +43,7 @@ const PodcastsProvider = ({children}) => {
                 summary: p.summary.label
             }
         })
-        console.log(podcasts)
+        // console.log(podcasts)
         let lsObject = { value: podcasts, timestamp: new Date().getTime() };
         localStorage.setItem('entries', JSON.stringify(lsObject))
         setPodcasts(podcasts)
@@ -77,9 +77,9 @@ const PodcastsProvider = ({children}) => {
                     return
                 })
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     // console.log(data.contents)
-                    console.log(JSON.parse(data.contents))
+                    // console.log(JSON.parse(data.contents))
                     let contents = JSON.parse(data.contents)
                     // console.log(contents.results)
                     // console.log(contents.results[0])
@@ -109,7 +109,7 @@ const PodcastsProvider = ({children}) => {
                         })
                         .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
                             let episodes = []
                             const items = data.querySelectorAll("item");
                             items.forEach(episode => {
@@ -134,9 +134,9 @@ const PodcastsProvider = ({children}) => {
                                     }
                                 ]
                             })
-                            console.log(episodes)
+                            // console.log(episodes)
                             let udpPodcast = {...podcast, episodes}
-                            console.log(udpPodcast)
+                            // console.log(udpPodcast)
                             setPodcast(udpPodcast)
                             // console.log(podcast)
                             let lsObject = { value: udpPodcast, timestamp: new Date().getTime() }
