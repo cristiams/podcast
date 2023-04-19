@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
 import { isOutdated } from '../utils/checkOutTime'
-// import Parser from 'rss-parser';
 const PodcastsContext = createContext();
 
 const PodcastsProvider = ({children}) => {
