@@ -11,13 +11,13 @@ const Episode = () => {
   const {obtenerPodcast, podcast} = usePodcasts()
 
   useEffect( () => {
-    console.log(location)
-    console.log(location.pathname.split('/'))
+    // console.log(location)
+    // console.log(location.pathname.split('/'))
     if (!('episodes' in podcast)) {
       const pathname_partials = location.pathname.split('/')
       const podId = pathname_partials[2]
       obtenerPodcast(podId)
-      console.log(podcast)
+      // console.log(podcast)
     }
   }, [])
 
